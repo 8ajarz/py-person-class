@@ -9,9 +9,12 @@ class Person:
 
 def create_person_list(people: list) -> list:
     friends = [Person(person["name"], person["age"]) for person in people]
-    for i in range(len(people)):
-        spouse = list(people[i].items())[-1]
+    for friend in friends:
+        spouse = [
+            list(person.items())[-1]
+            for person in people
+            if person["name"] == friend.name
+        ][0]
         if spouse[1] is not None:
-            friend = Person.people[spouse[1]]
-            setattr(friends[i], spouse[0], friend)
+            setattr(friend, spouse[0], Person.people[spouse[1]])
     return friends
